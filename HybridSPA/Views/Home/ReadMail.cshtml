@@ -1,14 +1,14 @@
-﻿@{
-    ViewBag.Title = "Read Mail";
-}
-
-<script type="text/javascript">
+﻿<script type="text/javascript">
     var authCode = "@ViewBag.SpaAuthCode";
+    var account = "@ViewBag.Account";
+    var scopes = "@ViewBag.Scopes";
     alert(authCode);
 </script>
+
 <script type="text/javascript" src="https://alcdn.msauth.net/browser/2.20.0/js/msal-browser.js"></script>
 
 <script type="text/javascript">
+
     const msalInstance = new msal.PublicClientApplication({
         auth: {
             clientId: "49fd6351-6e12-49c8-a0fa-bc6a8951dabf",
@@ -17,7 +17,105 @@
         }
     })
 
-    function readMail(spaCode) {
+    // Select DOM elements to work with
+    const welcomeDiv = document.getElementById("welcomeMessage");
+    const signInButton = document.getElementById("signIn");
+    const signOutButton = document.getElementById('signOut');
+    const cardDiv = document.getElementById("card-div");
+    const mailButton = document.getElementById("readMail");
+    const profileButton = document.getElementById("seeProfile");
+    const profileDiv = document.getElementById("profile-div");
+
+    // Add here the endpoints for MS Graph API services you would like to use.
+    const graphConfig = {
+        graphMeEndpoint: "https://graph.microsoft.com/v1.0/me",
+        graphMailEndpoint: "https://graph.microsoft.com/v1.0/me/messages"
+    };
+
+    function showWelcomeMessage(account) {
+
+        // Reconfiguring DOM elements
+        cardDiv.classList.remove('d-none');
+        welcomeDiv.innerHTML = `Welcome ${account.name}`;
+        signInButton.classList.add('d-none');
+        signOutButton.classList.remove('d-none');
+    }
+
+    function updateUI(data, endpoint) {
+        console.log('Graph API responded at: ' + new Date().toString());
+
+        if (endpoint === graphConfig.graphMeEndpoint) {
+            profileDiv.innerHTML = '';
+            const title = document.createElement('p');
+            title.innerHTML = "<strong>Title: </strong>" + data.jobTitle;
+            const email = document.createElement('p');
+            email.innerHTML = "<strong>Mail: </strong>" + data.mail;
+            const phone = document.createElement('p');
+            phone.innerHTML = "<strong>Phone: </strong>" + data.businessPhones[0];
+            const address = document.createElement('p');
+            address.innerHTML = "<strong>Location: </strong>" + data.officeLocation;
+            profileDiv.appendChild(title);
+            profileDiv.appendChild(email);
+            profileDiv.appendChild(phone);
+            profileDiv.appendChild(address);
+
+        } else if (endpoint === graphConfig.graphMailEndpoint) {
+            if (data.value.length < 1) {
+                alert("Your mailbox is empty!")
+            } else {
+                const tabList = document.getElementById("list-tab");
+                tabList.innerHTML = ''; // clear tabList at each readMail call
+                const tabContent = document.getElementById("nav-tabContent");
+
+                data.value.map((d, i) => {
+                    // Keeping it simple
+                    if (i < 10) {
+                        const listItem = document.createElement("a");
+                        listItem.setAttribute("class", "list-group-item list-group-item-action")
+                        listItem.setAttribute("id", "list" + i + "list")
+                        listItem.setAttribute("data-toggle", "list")
+                        listItem.setAttribute("href", "#list" + i)
+                        listItem.setAttribute("role", "tab")
+                        listItem.setAttribute("aria-controls", i)
+                        listItem.innerHTML = d.subject;
+                        tabList.appendChild(listItem)
+
+                        const contentItem = document.createElement("div");
+                        contentItem.setAttribute("class", "tab-pane fade")
+                        contentItem.setAttribute("id", "list" + i)
+                        contentItem.setAttribute("role", "tabpanel")
+                        contentItem.setAttribute("aria-labelledby", "list" + i + "list")
+                        contentItem.innerHTML = "<strong> from: " + d.from.emailAddress.address + "</strong><br><br>" + d.bodyPreview + "...";
+                        tabContent.appendChild(contentItem);
+                    }
+                });
+            }
+        }
+    }
+
+    // Helper function to call MS Graph API endpoint
+    // using authorization bearer token scheme
+    function callMSGraph(endpoint, token, callback) {
+        const headers = new Headers();
+        const bearer = `Bearer ${token}`;
+
+        headers.append("Authorization", bearer);
+
+        const options = {
+            method: "GET",
+            headers: headers
+        };
+
+        console.log('request made to Graph API at: ' + new Date().toString());
+
+        fetch(endpoint, options)
+            .then(response => response.json())
+            .then(response => callback(response, endpoint))
+            .catch(error => console.log(error))
+    }
+
+    ///get Token
+    function getTokenPopup(spaCode) {
 
         alert(spaCode);
         // Only handle hash when in top frame
@@ -32,7 +130,7 @@
                     const sid = "{{sid}}";
                     const code = spaCode;
                     const preferredUsername = "{{preferredUsername}}";
-                    const loginHint = "{{loginHint}}";
+                    const loginHint = account;
 
                     const scopes = ["mail.read"];
                     const tokenQueryParameters = {
@@ -64,6 +162,7 @@
 
                                 if (error instanceof msal.InteractionRequiredAuthError) {
                                     console.log('MSAL: acquireTokenByCode failed, redirecting')
+                                    alert(loginHint);
                                     // Use loginHint from server to ensure same user
                                     return msalInstance.loginRedirect({
                                         loginHint,
@@ -107,8 +206,32 @@
         }
     }
 
-    
+    //Read Email
+    function readMail(spaCode) {
+            getTokenPopup(spaCode)
+                .then(response => {
+                    callMSGraph(graphConfig.graphMailEndpoint, response.accessToken, updateUI);
+                }).catch(error => {
+                    console.log(error);
+                });
+    }
+
+    //See Profile
+    function seeProfile(spaCode) {
+        getTokenPopup(spaCode)
+                .then(response => {
+                    callMSGraph(graphConfig.graphMeEndpoint, response.accessToken, updateUI);
+                }).catch(error => {
+                    console.log(error);
+                });
+    }
+
 </script>
+
+@{
+    ViewBag.Title = "Read Mail";
+}
+
 @if (ViewBag.Relogin != "true")
 {
     <text>
@@ -119,7 +242,7 @@
                         <div id="profile-div"></div>
                         <br>
                         <br>
-                        <button class="btn btn-primary" id="seeProfile" onclick="seeProfile()">See Profile</button>
+                        <button class="btn btn-primary" id="seeProfile" onclick="seeProfile('@ViewBag.SpaAuthCode')">See Profile</button>
                         <br>
                         <br>
                         <button class="btn btn-primary" id="readMail" onclick="readMail('@ViewBag.SpaAuthCode')">Read Mail</button>

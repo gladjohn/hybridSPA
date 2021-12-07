@@ -59,6 +59,8 @@ namespace HybridSPA.Controllers
             var spaAuthCode = HttpContext.Session["Spa_Auth_Code"];
 
             ViewBag.SpaAuthCode = spaAuthCode as string;
+            ViewBag.Account = account == null ? "" : account.Username;
+            ViewBag.Scopes = scopes;
 
             try
             {
