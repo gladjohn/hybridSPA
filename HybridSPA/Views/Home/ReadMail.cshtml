@@ -11,7 +11,7 @@
 <script type="text/javascript">
     const msalInstance = new msal.PublicClientApplication({
         auth: {
-            clientId: "b5c2e510-4a17-4feb-b219-e55aa5b74144",
+            clientId: "49fd6351-6e12-49c8-a0fa-bc6a8951dabf",
             redirectUri: "https://localhost:44320/auth/client-redirect",
             authority: "https://login.microsoftonline.com/f645ad92-e38d-4d1a-b510-d1b09a74a8ca"
         }
@@ -50,7 +50,8 @@
 
                         return msalInstance.acquireTokenByCode({
                             code,
-                            scopes
+                            scopes,
+                            tokenQueryParameters
                         })
                             .then(result => {
                                 console.timeEnd(timeLabel);

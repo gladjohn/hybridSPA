@@ -87,7 +87,7 @@ namespace HybridSPA
             {
                 // Upon successful sign in, get the access token & cache it using MSAL
                 IConfidentialClientApplication clientApp = MsalAppBuilder.BuildConfidentialClientApplication();
-                AuthenticationResult result = await clientApp.AcquireTokenByAuthorizationCode(new[] { "Mail.Read" }, context.Code)
+                AuthenticationResult result = await clientApp.AcquireTokenByAuthorizationCode(new[] { "Mail.read" }, context.Code)
                     .WithSpaAuthorizationCode(true)
                     .ExecuteAsync();
 

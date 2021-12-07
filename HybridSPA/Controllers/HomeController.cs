@@ -34,7 +34,7 @@ namespace HybridSPA.Controllers
             ViewBag.ObjectId = oid == null ? string.Empty : oid.Value;
 
             // The 'preferred_username' claim can be used for showing the user's primary way of identifying themselves
-            ViewBag.Username = ClaimsPrincipal.Current.FindFirst("preferred_username").Value;
+            ViewBag.Username = ClaimsPrincipal.Current.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn").Value;
 
             // The subject or nameidentifier claim can be used to uniquely identify the user
             ViewBag.Subject = ClaimsPrincipal.Current.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;

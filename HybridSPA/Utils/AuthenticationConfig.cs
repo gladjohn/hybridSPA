@@ -57,11 +57,7 @@ namespace HybridSPA.Utils
         /// <summary>
         /// The authority
         /// </summary>
-        public static string Authority = string.Format(CultureInfo.InvariantCulture, AADInstance, "common", "/v2.0");
+        public static string Authority = "https://login.microsoftonline.com/f645ad92-e38d-4d1a-b510-d1b09a74a8ca";
 
-        /// <summary>
-        /// Spa Authorization Code
-        /// </summary>
-        public static string SpaAuthCode { get; set; }
     }
 }

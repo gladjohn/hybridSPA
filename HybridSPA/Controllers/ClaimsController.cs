@@ -23,7 +23,7 @@ namespace hybridSPA.Controllers
             ViewBag.Name = userClaims?.FindFirst("name")?.Value;
 
             // The 'preferred_username' claim can be used for showing the username
-            ViewBag.Username = userClaims?.FindFirst("preferred_username")?.Value;
+            ViewBag.Username = userClaims?.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn")?.Value;
 
             // The subject/ NameIdentifier claim can be used to uniquely identify the user across the web
             ViewBag.Subject = userClaims?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
