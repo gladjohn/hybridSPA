@@ -12,7 +12,7 @@
     const msalInstance = new msal.PublicClientApplication({
         auth: {
             clientId: "49fd6351-6e12-49c8-a0fa-bc6a8951dabf",
-            redirectUri: "https://localhost:44320/auth/server-redirect",
+            redirectUri: "https://localhost:44320/auth/client-redirect",
             authority: "https://login.microsoftonline.com/f645ad92-e38d-4d1a-b510-d1b09a74a8ca"
         }
     })
@@ -43,6 +43,7 @@
 
     function updateUI(data, endpoint) {
         console.log('Graph API responded at: ' + new Date().toString());
+        console.log('Graph API data: ' + data.mail);
 
         if (endpoint === graphConfig.graphMeEndpoint) {
             profileDiv.innerHTML = '';
@@ -98,7 +99,7 @@
     function callMSGraph(endpoint, token, callback) {
         const headers = new Headers();
         const bearer = `Bearer ${token}`;
-
+        alert('graph');
         headers.append("Authorization", bearer);
 
         const options = {
@@ -107,10 +108,15 @@
         };
 
         console.log('request made to Graph API at: ' + new Date().toString());
+        alert(endpoint);
+        alert(token);
 
         fetch(endpoint, options)
             .then(response => response.json())
             .then(response => callback(response, endpoint))
+            .then(result => {
+                console.log('Successfully Fetched Data from Graph API:', result);
+            })
             .catch(error => console.log(error))
     }
 
@@ -118,112 +124,47 @@
     function getTokenPopup(spaCode) {
 
         alert(spaCode);
-        // Only handle hash when in top frame
-        if (window === window.top) {
-            msalInstance.handleRedirectPromise()
-                .then(result => {
-                    if (result) {
-                        console.log('MSAL: Returning from login');
-                        return result;
-                    }
-
-                    const sid = "{{sid}}";
-                    const code = spaCode;
-                    const preferredUsername = "{{preferredUsername}}";
-                    const loginHint = account;
-
-                    const scopes = ["mail.read"];
-                    const tokenQueryParameters = {
-                        dc: "ESTS-PUB-WUS2-AZ1-FD000-TEST1",
-                        hybridspa: "true"
-                    }
-
-                    const hybridParams = !!(code);
-                    console.log(`MSAL: Initiating client-side auth (hybrid: ${hybridParams})`);
-
-                    if (hybridParams) {
-                        const timeLabel = "Time for acquireTokenByCode";
-                        console.time(timeLabel);
-                        console.log('MSAL: acquireTokenByCode hybrid parameters present');
-
-                        return msalInstance.acquireTokenByCode({
-                            code,
-                            scopes,
-                            tokenQueryParameters
-                        })
-                            .then(result => {
-                                console.timeEnd(timeLabel);
-                                console.log('MSAL: acquireTokenByCode completed successfully', result);
-                            })
-                            .catch(error => {
-                                console.timeEnd(timeLabel);
-                                console.timeEnd(error);
-                                console.error('MSAL: acquireTokenByCode failed', error);
-
-                                if (error instanceof msal.InteractionRequiredAuthError) {
-                                    console.log('MSAL: acquireTokenByCode failed, redirecting')
-                                    alert(loginHint);
-                                    // Use loginHint from server to ensure same user
-                                    return msalInstance.loginRedirect({
-                                        loginHint,
-                                        scopes
-                                    })
-                                }
-                            });
-                    } else {
-                        const timeLabel = "Time for ssoSilent";
-                        console.time(timeLabel);
-                        console.log('MSAL: ssoSilent hybrid parameters not present');
-
-                        return msalInstance.ssoSilent({
-                            sid: loginHint ? undefined : sid, // If loginHint claim is provided, dont use sid
-                            loginHint: loginHint || preferredUsername, // Prefer loginHint claim over email
-                            tokenQueryParameters,
-                            scopes
-                        })
-                            .then(result => {
-                                console.timeEnd(timeLabel);
-                                console.log('MSAL: ssoSilent completed successfully', result);
-                            })
-                            .catch((error) => {
-                                console.timeEnd(timeLabel);
-                                console.error('MSAL: ssoSilent failed', error);
-
-                                if (error instanceof msal.InteractionRequiredAuthError) {
-                                    console.log('MSAL: ssoSilent failed, redirecting')
-                                    // Use loginHint from server to ensure same user
-                                    return msalInstance.loginRedirect({
-                                        loginHint,
-                                        scopes
-                                    })
-                                }
-                            });
-                    }
-                })
-                .catch(error => {
-                    console.error("MSAL: Error returning from redirect", error);
-                });
+        const code = spaCode;
+        const scopes = ["mail.read"];
+        const tokenQueryParameters = {
+            dc: "ESTS-PUB-WUS2-AZ1-FD000-TEST1",
+            hybridspa: "true"
         }
+
+        const timeLabel = "Time for acquireTokenByCode";
+        console.time(timeLabel);
+        console.log('MSAL: acquireTokenByCode hybrid parameters present');
+
+        var authResult = msalInstance.acquireTokenByCode({
+            code,
+            scopes,
+            tokenQueryParameters
+        })
+        console.log(authResult);
+
+        return authResult
+
     }
 
     //Read Email
     function readMail(spaCode) {
-            getTokenPopup(spaCode)
-                .then(response => {
-                    callMSGraph(graphConfig.graphMailEndpoint, response.accessToken, updateUI);
-                }).catch(error => {
-                    console.log(error);
-                });
+        getTokenPopup(spaCode)
+            .then(response => {
+                alert(response.accessToken);
+                callMSGraph(graphConfig.graphMailEndpoint, response.accessToken, updateUI);
+            }).catch(error => {
+                console.log(error);
+            });
     }
 
     //See Profile
     function seeProfile(spaCode) {
         getTokenPopup(spaCode)
-                .then(response => {
-                    callMSGraph(graphConfig.graphMeEndpoint, response.accessToken, updateUI);
-                }).catch(error => {
-                    console.log(error);
-                });
+            .then(response => {
+                callMSGraph(graphConfig.graphMeEndpoint, response.accessToken, updateUI);
+            }).catch(error => {
+                console.log(error);
+            });
     }
 
 </script>
@@ -269,10 +210,10 @@ else
         <p>
             The app cannot retrieve your mail until you sign in again. Please click @Html.ActionLink("here", "RefreshSession", "Home") to sign in.
         </p>
-        </text>
+    </text>
 
 
-    }
+}
 
 <!-- importing bootstrap.js and supporting js libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
