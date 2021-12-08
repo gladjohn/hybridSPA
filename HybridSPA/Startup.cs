@@ -92,22 +92,10 @@ namespace HybridSPA
 
                 // Upon successful sign in, get the access token & cache it using MSAL
                 IConfidentialClientApplication clientApp = MsalAppBuilder.BuildConfidentialClientApplication();
-                AuthenticationResult result = await clientApp.AcquireTokenByAuthorizationCode(new[] { "Mail.read" }, context.Code)
+                AuthenticationResult result = await clientApp.AcquireTokenByAuthorizationCode(new[] { "user.read" }, context.Code)
                     .WithSpaAuthorizationCode(true)
                     .WithExtraQueryParameters(extraQueryParameters)
                     .ExecuteAsync();
-
-                List<Claim> oauthClaims = new List<Claim>
-                {
-                    new Claim("access_token", result.AccessToken),
-                    new Claim("id_token", result.IdToken),
-                    new Claim("spa_auth_code", result.SpaAuthCode)
-                };
-
-                //context.HandleCodeRedemption(result.AccessToken, context.ProtocolMessage.IdToken);
-                //AuthenticationConfig.SpaAuthCode = result.SpaAuthCode;
-
-                //HttpContext.Current.Items.Add("Spa_Auth_Code", result.SpaAuthCode);
 
                 HttpContext.Current.Session.Add("Spa_Auth_Code", result.SpaAuthCode);
 

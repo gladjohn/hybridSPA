@@ -56,7 +56,7 @@ namespace HybridSPA.Controllers
 #pragma warning restore IDE0059 // Unnecessary assignment of a value
             var accountId = ClaimsPrincipal.Current.GetAccountId();
             var account = await app.GetAccountAsync(accountId);
-            string[] scopes = { "Mail.Read" };
+            string[] scopes = { "user.read" };
 
             var spaAuthCode = HttpContext.Session["Spa_Auth_Code"];
 

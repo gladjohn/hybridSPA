@@ -5,7 +5,7 @@
 @if (ViewBag.Relogin != "true")
 {
     <text>
-        
+
         <br>
         <h5 class="card-header text-center">Click "See Profile" to view the Profile of the signed in User. This feature uses the Hybrid Spa Flow.</h5>
         <br>
@@ -41,7 +41,7 @@
 else
 {
     <text>
-        <h2 class="card-title" id="welcomeMessage">Please sign-in to see your profile./h2>
+        <h2 class="card-title" id="welcomeMessage">Please sign-in to see your profile.</h2>
         <p>
             The app cannot retrieve your profile until you sign in again. Please click @Html.ActionLink("here", "RefreshSession", "Home") to sign in.
         </p>
@@ -56,7 +56,7 @@ else
     var authCode = "@ViewBag.SpaAuthCode";
     var account = "@ViewBag.Account";
     var scopes = "@ViewBag.Scopes";
-    
+
     const msalInstance = new msal.PublicClientApplication({
         auth: {
             clientId: "49fd6351-6e12-49c8-a0fa-bc6a8951dabf",
