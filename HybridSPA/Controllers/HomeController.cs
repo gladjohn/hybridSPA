@@ -51,7 +51,9 @@ namespace HybridSPA.Controllers
         public async Task<ActionResult> ReadMail()
         {
             IConfidentialClientApplication app = MsalAppBuilder.BuildConfidentialClientApplication();
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
             AuthenticationResult result = null;
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
             var accountId = ClaimsPrincipal.Current.GetAccountId();
             var account = await app.GetAccountAsync(accountId);
             string[] scopes = { "Mail.Read" };
@@ -59,7 +61,7 @@ namespace HybridSPA.Controllers
             var spaAuthCode = HttpContext.Session["Spa_Auth_Code"];
 
             ViewBag.SpaAuthCode = spaAuthCode as string;
-            ViewBag.Account = account == null ? "" : account.Username;
+            ViewBag.Account = account as IAccount;
             ViewBag.Scopes = scopes;
 
             try
@@ -166,7 +168,9 @@ namespace HybridSPA.Controllers
             };
 
             IConfidentialClientApplication app = MsalAppBuilder.BuildConfidentialClientApplication();
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
             AuthenticationResult result = null;
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
             var account = await app.GetAccountAsync(ClaimsPrincipal.Current.GetAccountId());
             string[] scopes = { "Mail.Send" };
 

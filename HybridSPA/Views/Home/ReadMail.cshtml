@@ -12,7 +12,7 @@
     const msalInstance = new msal.PublicClientApplication({
         auth: {
             clientId: "49fd6351-6e12-49c8-a0fa-bc6a8951dabf",
-            redirectUri: "https://localhost:44320/auth/client-redirect",
+            redirectUri: "https://localhost:44320/auth/server-redirect",
             authority: "https://login.microsoftonline.com/f645ad92-e38d-4d1a-b510-d1b09a74a8ca"
         }
     })
@@ -265,14 +265,14 @@
 else
 {
     <text>
-        <h2>You need to sign in again.</h2>
+        <h2 class="card-title" id="welcomeMessage">Please sign-in to see your profile and read your mails</h2>
         <p>
             The app cannot retrieve your mail until you sign in again. Please click @Html.ActionLink("here", "RefreshSession", "Home") to sign in.
         </p>
-    </text>
+        </text>
 
 
-}
+    }
 
 <!-- importing bootstrap.js and supporting js libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -280,4 +280,4 @@ else
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
 <!-- importing app scripts (load order is important) -->
-<script type="text/javascript" src="~/Scripts/hybridSPA.js"></script>
+@*<script type="text/javascript" src="~/Scripts/hybridSPA.js"></script>*@

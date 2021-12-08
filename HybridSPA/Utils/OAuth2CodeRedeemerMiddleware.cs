@@ -45,7 +45,9 @@ namespace HybridSPA.Utils
     /// <seealso cref="Microsoft.Owin.OwinMiddleware" />
     public sealed class OAuth2CodeRedeemerMiddleware : OwinMiddleware
     {
+#pragma warning disable IDE0052 // Remove unread private members
         private readonly OAuth2CodeRedeemerOptions options;
+#pragma warning restore IDE0052 // Remove unread private members
 
         public OAuth2CodeRedeemerMiddleware(OwinMiddleware next, OAuth2CodeRedeemerOptions options)
             : base(next)
@@ -63,7 +65,9 @@ namespace HybridSPA.Utils
                 //extract state
                 string state = HttpUtility.UrlDecode(context.Request.Query["state"]);
 
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
                 string signedInUserID = context.Authentication.User.FindFirst(System.IdentityModel.Claims.ClaimTypes.NameIdentifier).Value;
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
                 HttpContextBase hcb = context.Environment["System.Web.HttpContextBase"] as HttpContextBase;
 
                 //validate state
@@ -74,7 +78,9 @@ namespace HybridSPA.Utils
                     //if valid, redeem code
 
                     IConfidentialClientApplication cc = MsalAppBuilder.BuildConfidentialClientApplication();
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
                     AuthenticationResult result = await cc.AcquireTokenByAuthorizationCode(crd.Scopes, code)
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
                                                             .WithSpaAuthorizationCode().ExecuteAsync().ConfigureAwait(false);
 
                     //redirect to original requestor
@@ -173,7 +179,9 @@ namespace HybridSPA.Utils
         private static string ReadUserStateValue(HttpContextBase httpcontext)
         {
             string signedInUserID = ClaimsPrincipal.Current.FindFirst(System.IdentityModel.Claims.ClaimTypes.NameIdentifier).Value;
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
             string stateGuid = string.Empty;
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
             SessionLock.EnterReadLock();
             stateGuid = (string)httpcontext.Session[signedInUserID + "_state"];
             SessionLock.ExitReadLock();
@@ -216,7 +224,9 @@ namespace HybridSPA.Utils
 
         public static async Task<string> GenerateAuthorizationRequestUrl(string[] scopes, IConfidentialClientApplication cca, HttpContextBase httpcontext, UrlHelper url)
         {
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
             string signedInUserID = ClaimsPrincipal.Current.FindFirst(System.IdentityModel.Claims.ClaimTypes.NameIdentifier).Value;
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
             string preferredUsername = ClaimsPrincipal.Current.FindFirst("preferred_username").Value;
             Uri oauthCodeProcessingPath = new Uri(httpcontext.Request.Url.GetLeftPart(UriPartial.Authority).ToString());
             string state = GenerateState(httpcontext.Request.Url.ToString(), httpcontext, url, scopes);
