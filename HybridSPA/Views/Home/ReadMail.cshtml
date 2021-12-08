@@ -1,13 +1,10 @@
 ﻿<script type="text/javascript">
+
     var authCode = "@ViewBag.SpaAuthCode";
     var account = "@ViewBag.Account";
     var scopes = "@ViewBag.Scopes";
     alert(authCode);
-</script>
 
-<script type="text/javascript" src="https://alcdn.msauth.net/browser/2.20.0/js/msal-browser.js"></script>
-
-<script type="text/javascript">
 
     const msalInstance = new msal.PublicClientApplication({
         auth: {
@@ -43,7 +40,6 @@
 
     function updateUI(data, endpoint) {
         console.log('Graph API responded at: ' + new Date().toString());
-        console.log('Graph API data: ' + data.mail);
 
         if (endpoint === graphConfig.graphMeEndpoint) {
             profileDiv.innerHTML = '';
@@ -64,6 +60,7 @@
             if (data.value.length < 1) {
                 alert("Your mailbox is empty!")
             } else {
+                console.log('Displaying Emails for the signed in user.');
                 const tabList = document.getElementById("list-tab");
                 tabList.innerHTML = ''; // clear tabList at each readMail call
                 const tabContent = document.getElementById("nav-tabContent");
@@ -86,92 +83,94 @@
                         contentItem.setAttribute("id", "list" + i)
                         contentItem.setAttribute("role", "tabpanel")
                         contentItem.setAttribute("aria-labelledby", "list" + i + "list")
-                        contentItem.innerHTML = "<strong> from: " + d.from.emailAddress.address + "</strong><br><br>" + d.bodyPreview + "...";
+                        contentItem.innerHTML = "<strong> from: " + d.from.emailAddress.address + "</strong>";
                         tabContent.appendChild(contentItem);
                     }
                 });
             }
         }
     }
+            // Helper function to call MS Graph API endpoint
+            // using authorization bearer token scheme
+            function callMSGraph(endpoint, token, callback) {
+            const headers = new Headers();
+            const bearer = `Bearer ${token}`;
+            alert('graph');
+            headers.append("Authorization", bearer);
 
-    // Helper function to call MS Graph API endpoint
-    // using authorization bearer token scheme
-    function callMSGraph(endpoint, token, callback) {
-        const headers = new Headers();
-        const bearer = `Bearer ${token}`;
-        alert('graph');
-        headers.append("Authorization", bearer);
-
-        const options = {
-            method: "GET",
+            const options = {
+                method: "GET",
             headers: headers
-        };
+            };
 
-        console.log('request made to Graph API at: ' + new Date().toString());
-        alert(endpoint);
-        alert(token);
+            console.log('request made to Graph API at: ' + new Date().toString());
+            alert(endpoint);
+            alert(token);
 
-        fetch(endpoint, options)
-            .then(response => response.json())
-            .then(response => callback(response, endpoint))
-            .then(result => {
+            fetch(endpoint, options)
+                .then(response => response.json())
+                .then(response => callback(response, endpoint))
+                .then(result => {
                 console.log('Successfully Fetched Data from Graph API:', result);
-            })
-            .catch(error => console.log(error))
-    }
-
-    ///get Token
-    function getTokenPopup(spaCode) {
-
-        alert(spaCode);
-        const code = spaCode;
-        const scopes = ["mail.read"];
-        const tokenQueryParameters = {
-            dc: "ESTS-PUB-WUS2-AZ1-FD000-TEST1",
-            hybridspa: "true"
+                })
+                .catch(error => console.log(error))
         }
 
-        const timeLabel = "Time for acquireTokenByCode";
-        console.time(timeLabel);
-        console.log('MSAL: acquireTokenByCode hybrid parameters present');
+            ///get Token
+            function getTokenPopup(spaCode) {
 
-        var authResult = msalInstance.acquireTokenByCode({
-            code,
-            scopes,
-            tokenQueryParameters
-        })
-        console.log(authResult);
+                alert(spaCode);
+            const code = spaCode;
+            const scopes = ["mail.read"];
+            const tokenQueryParameters = {
+                dc: "ESTS-PUB-WUS2-AZ1-FD000-TEST1",
+            hybridspa: "true"
+            }
 
-        return authResult
+            const timeLabel = "Time for acquireTokenByCode";
+            console.time(timeLabel);
+            console.log('MSAL: acquireTokenByCode hybrid parameters present');
 
-    }
+            var authResult = msalInstance.acquireTokenByCode({
+                code,
+                scopes,
+                tokenQueryParameters
+            })
+            console.log(authResult);
 
-    //Read Email
-    function readMail(spaCode) {
-        getTokenPopup(spaCode)
-            .then(response => {
-                alert(response.accessToken);
-                callMSGraph(graphConfig.graphMailEndpoint, response.accessToken, updateUI);
-            }).catch(error => {
-                console.log(error);
-            });
-    }
+            return authResult
 
-    //See Profile
-    function seeProfile(spaCode) {
-        getTokenPopup(spaCode)
-            .then(response => {
-                callMSGraph(graphConfig.graphMeEndpoint, response.accessToken, updateUI);
-            }).catch(error => {
-                console.log(error);
-            });
-    }
+        }
+
+            //Read Email
+            function readMail(spaCode) {
+                getTokenPopup(spaCode)
+                    .then(response => {
+                        alert(response.accessToken);
+                        callMSGraph(graphConfig.graphMailEndpoint, response.accessToken, updateUI);
+                    }).catch(error => {
+                        console.log(error);
+                    });
+        }
+
+            //See Profile
+            function seeProfile(spaCode) {
+                getTokenPopup(spaCode)
+                    .then(response => {
+                        callMSGraph(graphConfig.graphMeEndpoint, response.accessToken, updateUI);
+                    }).catch(error => {
+                        console.log(error);
+                    });
+        }
 
 </script>
 
 @{
     ViewBag.Title = "Read Mail";
 }
+
+
+
 
 @if (ViewBag.Relogin != "true")
 {
