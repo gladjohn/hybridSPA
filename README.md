@@ -219,7 +219,7 @@ Important things to notice:
 
 First, configure a new PublicClientApplication from MSAL.js in your single-page application:
 
-Source: [Scripts/HybridSPA.js#L1](./HybridSpa/Scripts/HybridSPA.js#L1)
+Source: [Scripts/HybridSPA.js#L1](./HybridSPA/Scripts/HybridSPA.js#L1)
 
 ```JS
 const msalInstance = new msal.PublicClientApplication({
@@ -235,7 +235,7 @@ Next, render the code that was acquired server-side, and provide it to the acqui
 
 The application should also render any account hints, as they will be needed for any interactive requests to ensure the same user is used for both requests
 
-Source: [Scripts/HybridSPA.js#L113](./HybridSpa/Scripts/HybridSPA.js#L113)
+Source: [Scripts/HybridSPA.js#L113](./HybridSPA/Scripts/HybridSPA.js#L113)
 
 ```js
 const code = "{{code}}";
@@ -260,7 +260,7 @@ return msalInstance.acquireTokenByCode({
 
 Once the Access Token is retrieved using the new MSAL.js `acquireTokenByCode` api, the code is then used to read the user's profile 
 
-Source: [Scripts/HybridSPA.js#L84](./HybridSpa/Scripts/HybridSPA.js#L84)
+Source: [Scripts/HybridSPA.js#L84](./HybridSPA/Scripts/HybridSPA.js#L84)
 
 ```js
 function callMSGraph(endpoint, token, callback) {
