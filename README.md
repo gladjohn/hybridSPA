@@ -10,6 +10,12 @@ This sample demonstrates how to use MSAL.js v2 and MSAL .Net together in a "hybr
 
 It shows how to use two new APIs, `WithSpaAuthorizationCode` on `AcquireTokenByAuthorizationCode` in MSAL .Net and `acquireTokenByCode` in MSAL.js v2, to authenticate a user server-side using a confidential client, and then SSO that user client-side using a second authorization code that is returned to the confidential client and redeemed by the public client client-side. This helps mitigate user experience and performance concerns that arise when performing server-side and client-side authentication for the same user, especially when third-party cookies are blocked by the browser.
 
+## Sample Overview
+
+The application is implemented as an ASP.NET MVC project, while the web sign-on functionality is implemented via ASP.NET OpenId Connect OWIN middleware.
+
+The sample also shows how to use MSAL.js V2 (Microsoft Authentication Library for JavaScript) to obtain an access token for Microsoft Graph. Specifically, the sample shows how to retrieve the last email messages received by the signed in user, and how to send a mail message as the user using Microsoft Graph.
+
 ## Setup
 
 1. Clone the source code from the git repo.
@@ -44,11 +50,4 @@ It shows how to use two new APIs, `WithSpaAuthorizationCode` on `AcquireTokenByA
     <add key="Authority" value="https://login.microsoftonline.com/<Tenant GUID>" />
   </appSettings>
 ```  
-
-## Overview
-
-The application is implemented as an ASP.NET MVC project, while the web sign-on functionality is implemented via ASP.NET OpenId Connect OWIN middleware.
-
-The sample also shows how to use MSAL.js V2 (Microsoft Authentication Library for JavaScript) to obtain an access token for Microsoft Graph. Specifically, the sample shows how to retrieve the last email messages received by the signed in user, and how to send a mail message as the user using Microsoft Graph.
-
 
