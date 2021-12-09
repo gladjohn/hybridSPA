@@ -14,7 +14,9 @@ It shows how to use two new APIs, `WithSpaAuthorizationCode` on `AcquireTokenByA
 
 The application is implemented as an ASP.NET MVC project, while the web sign-on functionality is implemented via ASP.NET OpenId Connect OWIN middleware.
 
-The sample also shows how to use MSAL.js V2 (Microsoft Authentication Library for JavaScript) to obtain an access token for Microsoft Graph. Specifically, the sample shows how to get the profile of the user from Microsoft Graph.
+The sample also shows how to use [MSAL.js V2 (Microsoft Authentication Library for JavaScript)](https://github.com/AzureAD/microsoft-authentication-library-for-js) to obtain an access token for Microsoft Graph. Specifically, the sample shows how to get the profile of the user from Microsoft Graph.
+
+You can also use the [MSAL Browser sample](https://github.com/AzureAD/microsoft-authentication-library-for-js/tree/dev/samples/msal-browser-samples/HybridSample) that demonstrates how to use MSAL.js v2 and MSAL Node together in a "hybrid" application that performs both server-side and client-side authenication
 
 ## How To Run This Sample
 
@@ -213,38 +215,47 @@ Important things to notice:
 
 - The method builds an instance of the IConfidentialClientApplication using the new [builder pattern introduced by MSAL v3.X](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/Client-Applications).
 
-### Using Spa Auth Code 
+### Using Spa Auth Code in the Front End
 
-The `ViewProfile` action in the `HomeController` class gets the Spa Auth Code from the Session State Object and adds it to the ViewBag for the Front End to consume. 
+First, configure a new PublicClientApplication from MSAL.js in your single-page application:
 
-Here is the relevant code:
+Source: views/client-redirect.hbs
 
-```CSharp
-    var spaAuthCode = HttpContext.Session["Spa_Auth_Code"];
-
-    ViewBag.SpaAuthCode = spaAuthCode as string;
-}
+```JS
+const msalInstance = new msal.PublicClientApplication({
+    auth: {
+        clientId: "{{clientId}}",
+        redirectUri: "http://localhost:3000/auth/client-redirect",
+        authority: "{{authority}}"
+    }
+})
 ```
 
-In the `ViewProfile.cshtml`, SPA Auth Code is passed to `hybridspa.js` file where the code is redeemed for an access token, 
+Next, render the code that was acquired server-side, and provide it to the acquireTokenByCode API on the MSAL.js PublicClientApplication instance. Be sure to not include any additional scopes that were not included in the first login request, otherwise the user may be prompted for consent.
+
+The application should also render any account hints, as they will be needed for any interactive requests to ensure the same user is used for both requests
+
+Source: views/client-redirect.hbs
 
 ```js
-function getTokenPopup(spaCode) {
+const code = "{{code}}";
+const loginHint = "{{loginHint}}";
 
-    var code = spaCode;
-    const scopes = ["user.read"];
+const scopes = [ "user.read" ];
 
-    console.log('MSAL: acquireTokenByCode hybrid parameters present');
-
-    var authResult = msalInstance.acquireTokenByCode({
-        code,
-        scopes
-    })
-    console.log(authResult);
-
-    return authResult
-
-}
+return msalInstance.acquireTokenByCode({
+    code,
+    scopes
+})
+    .catch(error => {
+         if (error instanceof msal.InteractionRequiredAuthError) {
+            // Use loginHint/sid from server to ensure same user
+            return msalInstance.loginRedirect({
+                loginHint,
+                scopes
+            })
+        }
+    });
 ```
 
 Once the Access Token is retrieved using the new MSAL.js `acquireTokenByCode` api, the code is then used to read the user's profile 
