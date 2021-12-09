@@ -267,7 +267,7 @@ return msalInstance.acquireTokenByCode({
     });
 ```
 
-Once the Access Token is retrieved using the new MSAL.js `acquireTokenByCode` api, the code is then used to read the user's profile 
+Once the Access Token is retrieved using the new MSAL.js `acquireTokenByCode` api, the token is then used to read the user's profile 
 
 Source: [Scripts/HybridSPA.js#L84](./HybridSPA/Scripts/HybridSPA.js#L84)
 
