@@ -102,9 +102,13 @@ Clean the solution, rebuild the solution, and run it.
 Once you run the `Hybrid SPA` web application, you are presented with the standard ASP.NET home page.
 Click on the **Sign-in with Microsoft** link on top-right to trigger the log-in flow.
 
+![Sign-in](./HybridSPA/Content/Login_Screen.JPG)
+
 On the sign-in page, enter the name and password of a work/school account. 
 
 As you sign in, the app will change the sign-in button into a greeting to the current user - and two new menu commands will appear: `View Claims` and `View Profile`.
+
+![View Profile](./HybridSPA/Content/View_Profile.JPG)
 
 Click on **View Profile**: the app will show the profile of the current user, as they are received from the Microsoft Graph.
 
