@@ -27,3 +27,19 @@ It shows how to use two new APIs, `WithSpaAuthorizationCode` on `AcquireTokenByA
     1. `login_hint`
 10. Under the **API permissions** tabs, add the `User.Read` scope from Microsoft Graph.
 11. Build the application and click Start.
+
+## Sample web.config 
+```config
+  <appSettings>
+    <add key="webpages:Version" value="3.0.0.0" />
+    <add key="webpages:Enabled" value="false" />
+    <add key="ClientValidationEnabled" value="true" />
+    <add key="UnobtrusiveJavaScriptEnabled" value="true" />
+    <add key="ClientId" value="App_ID/Client_ID" />
+    <add key="ClientSecret" value="App_Secret" />
+    <add key="AADInstance" value="https://login.microsoftonline.com/{0}{1}" />
+    <add key="redirectUri" value="https://localhost:44320" />
+    <add key="Tenant" value="common" />
+    <add key="Authority" value="https://login.microsoftonline.com/<Tenant GUID>" />
+  </appSettings>
+```  
