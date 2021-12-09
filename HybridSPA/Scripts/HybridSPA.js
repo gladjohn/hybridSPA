@@ -84,7 +84,6 @@ function updateUI(data, endpoint) {
 function callMSGraph(endpoint, token, callback) {
     const headers = new Headers();
     const bearer = `Bearer ${token}`;
-    alert('graph');
     headers.append("Authorization", bearer);
 
     const options = {
@@ -93,8 +92,6 @@ function callMSGraph(endpoint, token, callback) {
     };
 
     console.log('request made to Graph API at: ' + new Date().toString());
-    alert(endpoint);
-    alert(token);
 
     fetch(endpoint, options)
         .then(response => response.json())
@@ -108,8 +105,7 @@ function callMSGraph(endpoint, token, callback) {
 ///get Token
 function getTokenPopup(spaCode) {
 
-    alert(spaCode);
-    const code = spaCode;
+    var code = spaCode;
     const scopes = ["user.read"];
 
     console.log('MSAL: acquireTokenByCode hybrid parameters present');
@@ -128,7 +124,6 @@ function getTokenPopup(spaCode) {
 function readMail(spaCode) {
     getTokenPopup(spaCode)
         .then(response => {
-            alert(response.accessToken);
             callMSGraph(graphConfig.graphMailEndpoint, response.accessToken, updateUI);
         }).catch(error => {
             console.log(error);

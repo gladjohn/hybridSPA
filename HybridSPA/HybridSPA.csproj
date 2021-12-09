@@ -393,7 +393,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
-    <Content Include="Scripts\HybridSPA.js" />
+    <Content Include="Scripts\hybridspa.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -420,9 +420,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Claims\Index.cshtml" />
-    <Content Include="Views\Home\ReadMail.cshtml" />
-    <Content Include="Views\Home\MailSent.cshtml" />
-    <Content Include="Views\Home\SendMail.cshtml" />
     <Content Include="Views\Home\ViewProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
