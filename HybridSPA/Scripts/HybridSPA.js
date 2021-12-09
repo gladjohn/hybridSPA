@@ -1,85 +1,146 @@
-﻿
-const msalInstance = new msal.PublicClientApplication({
+﻿const msalInstance = new msal.PublicClientApplication({
     auth: {
-        clientId: "{{clientId}}",
-        redirectUri: "http://localhost:3000/auth/client-redirect",
-        authority: "{{authority}}"
+        clientId: "639982ad-d26c-40a5-852a-80817e3fdae6",
+        redirectUri: "https://localhost:44320/auth/client-redirect",
+        authority: "https://login.microsoftonline.com/f645ad92-e38d-4d1a-b510-d1b09a74a8ca"
     }
 })
-// Only handle hash when in top frame
-if (window === window.top) {
-    msalInstance.handleRedirectPromise()
+
+// Select DOM elements to work with
+const welcomeDiv = document.getElementById("welcomeMessage");
+const signInButton = document.getElementById("signIn");
+const signOutButton = document.getElementById('signOut');
+const cardDiv = document.getElementById("card-div");
+const mailButton = document.getElementById("readMail");
+const profileButton = document.getElementById("seeProfile");
+const profileDiv = document.getElementById("profile-div");
+
+// Add here the endpoints for MS Graph API services you would like to use.
+const graphConfig = {
+    graphMeEndpoint: "https://graph.microsoft.com/v1.0/me",
+    graphMailEndpoint: "https://graph.microsoft.com/v1.0/me/messages"
+};
+
+function updateUI(data, endpoint) {
+    console.log('Graph API responded at: ' + new Date().toString());
+
+    if (endpoint === graphConfig.graphMeEndpoint) {
+        profileDiv.innerHTML = '';
+        const title = document.createElement('p');
+        title.innerHTML = "<strong>Title: </strong>" + data.jobTitle;
+        console.log(data.jobTitle);
+        const email = document.createElement('p');
+        email.innerHTML = "<strong>Mail: </strong>" + data.mail;
+        console.log(data.mail);
+        const phone = document.createElement('p');
+        phone.innerHTML = "<strong>Phone: </strong>" + data.businessPhones[0];
+        console.log(data.businessPhones[0]);
+        const address = document.createElement('p');
+        address.innerHTML = "<strong>Location: </strong>" + data.officeLocation;
+        console.log(data.officeLocation);
+        profileDiv.appendChild(title);
+        profileDiv.appendChild(email);
+        profileDiv.appendChild(phone);
+        profileDiv.appendChild(address);
+
+    } else if (endpoint === graphConfig.graphMailEndpoint) {
+        if (data.value.length < 1) {
+            alert("Your mailbox is empty!")
+        } else {
+            console.log('Displaying Emails for the signed in user.');
+            const tabList = document.getElementById("list-tab");
+            tabList.innerHTML = ''; // clear tabList at each readMail call
+            const tabContent = document.getElementById("nav-tabContent");
+
+            data.value.map((d, i) => {
+                // Keeping it simple
+                if (i < 10) {
+                    const listItem = document.createElement("a");
+                    listItem.setAttribute("class", "list-group-item list-group-item-action")
+                    listItem.setAttribute("id", "list" + i + "list")
+                    listItem.setAttribute("data-toggle", "list")
+                    listItem.setAttribute("href", "#list" + i)
+                    listItem.setAttribute("role", "tab")
+                    listItem.setAttribute("aria-controls", i)
+                    listItem.innerHTML = d.subject;
+                    tabList.appendChild(listItem)
+                    const contentItem = document.createElement("div");
+                    contentItem.setAttribute("class", "tab-pane fade")
+                    contentItem.setAttribute("id", "list" + i)
+                    contentItem.setAttribute("role", "tabpanel")
+                    contentItem.setAttribute("aria-labelledby", "list" + i + "list")
+                    contentItem.innerHTML = "<strong> from: " + d.from.emailAddress.address + "</strong>";
+                    tabContent.appendChild(contentItem);
+
+                }
+            });
+        }
+    }
+}
+
+
+// Helper function to call MS Graph API endpoint
+// using authorization bearer token scheme
+function callMSGraph(endpoint, token, callback) {
+    const headers = new Headers();
+    const bearer = `Bearer ${token}`;
+    alert('graph');
+    headers.append("Authorization", bearer);
+
+    const options = {
+        method: "GET",
+        headers: headers
+    };
+
+    console.log('request made to Graph API at: ' + new Date().toString());
+    alert(endpoint);
+    alert(token);
+
+    fetch(endpoint, options)
+        .then(response => response.json())
+        .then(response => callback(response, endpoint))
         .then(result => {
-            if (result) {
-                console.log('MSAL: Returning from login');
-                return result;
-            }
-                
-            const sid = "{{sid}}";
-            const code = "{{code}}";
-            const preferredUsername = "{{preferredUsername}}";
-            const loginHint = "{{loginHint}}";
-            const scopes = [ "user.read" ];
-            const tokenQueryParameters = {
-                dc: "ESTS-PUB-WUS2-AZ1-FD000-TEST1",
-                hybridspa: "true"
-            }
-            const hybridParams = !!(code);
-            console.log(`MSAL: Initiating client-side auth (hybrid: ${hybridParams})`);
-            if (hybridParams) {
-                const timeLabel = "Time for acquireTokenByCode";
-                console.time(timeLabel);
-                console.log('MSAL: acquireTokenByCode hybrid parameters present');
-                return msalInstance.acquireTokenByCode({
-                    code,
-                    scopes,
-                    tokenQueryParameters
-                })
-                    .then(result => {
-                        console.timeEnd(timeLabel);
-                        console.log('MSAL: acquireTokenByCode completed successfully', result);
-                    })
-                    .catch(error => {
-                        console.timeEnd(timeLabel);
-                        console.error('MSAL: acquireTokenByCode failed', error);
-                        if (error instanceof msal.InteractionRequiredAuthError) {
-                            console.log('MSAL: acquireTokenByCode failed, redirecting')
-                            // Use loginHint from server to ensure same user
-                            return msalInstance.loginRedirect({
-                                loginHint,
-                                scopes
-                            })
-                        }
-                    });
-            } else {
-                const timeLabel = "Time for ssoSilent";
-                console.time(timeLabel);
-                console.log('MSAL: ssoSilent hybrid parameters not present');
-                return msalInstance.ssoSilent({
-                    sid: loginHint ? undefined : sid, // If loginHint claim is provided, dont use sid
-                    loginHint: loginHint || preferredUsername, // Prefer loginHint claim over email
-                    tokenQueryParameters,
-                    scopes
-                })
-                    .then(result => {
-                        console.timeEnd(timeLabel);
-                        console.log('MSAL: ssoSilent completed successfully', result);
-                    })
-                    .catch((error) => {
-                        console.timeEnd(timeLabel);
-                        console.error('MSAL: ssoSilent failed', error);
-                        if (error instanceof msal.InteractionRequiredAuthError) {
-                            console.log('MSAL: ssoSilent failed, redirecting')
-                            // Use loginHint from server to ensure same user
-                            return msalInstance.loginRedirect({
-                                loginHint,
-                                scopes
-                            })
-                        }
-                    });
-            }
+            console.log('Successfully Fetched Data from Graph API:', result);
         })
-        .catch(error => {
-            console.error("MSAL: Error returning from redirect", error);
+        .catch(error => console.log(error))
+}
+
+///get Token
+function getTokenPopup(spaCode) {
+
+    alert(spaCode);
+    const code = spaCode;
+    const scopes = ["user.read"];
+
+    console.log('MSAL: acquireTokenByCode hybrid parameters present');
+
+    var authResult = msalInstance.acquireTokenByCode({
+        code,
+        scopes
+    })
+    console.log(authResult);
+
+    return authResult
+
+}
+
+//Read Email
+function readMail(spaCode) {
+    getTokenPopup(spaCode)
+        .then(response => {
+            alert(response.accessToken);
+            callMSGraph(graphConfig.graphMailEndpoint, response.accessToken, updateUI);
+        }).catch(error => {
+            console.log(error);
+        });
+}
+
+//See Profile
+function seeProfile(spaCode) {
+    getTokenPopup(spaCode)
+        .then(response => {
+            callMSGraph(graphConfig.graphMeEndpoint, response.accessToken, updateUI);
+        }).catch(error => {
+            console.log(error);
         });
 }
