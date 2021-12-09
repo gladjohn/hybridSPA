@@ -122,7 +122,7 @@ Click on **View Profile**: the app will show the profile of the current user, as
 
 ## About the code
 
-Here there's a quick guide to the most interesting authentication-related bits of the sample.
+Here is a quick guide to the most interesting authentication-related bits of the sample.
 
 ### Sign in
 
