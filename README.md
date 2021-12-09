@@ -173,7 +173,7 @@ This sample makes use of OpenId Connect hybrid flow, where at authentication tim
 
 This sample shows how to use MSAL to redeem the authorization code into an access token, which is saved in a cache along with any other useful artifact (such as associated  [refresh_tokens](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow#refresh-the-access-token)) so that it can be used later on in the application from the controllers' actions to fetch access tokens after they are expired.
 
-The redemption takes place in the `AuthorizationCodeReceived` notification of the authorization middleware. This is the section where the new MSAL.Net `WithSpaAuthorizationCode` API is used to get the S`paAuthCode` Here there's the relevant code:
+The redemption takes place in the `AuthorizationCodeReceived` notification of the authorization middleware. This is the section where the new MSAL.Net `WithSpaAuthorizationCode` API is used to get the `SpaAuthCode` Here there's the relevant code:
 
 ```CSharp
 private async Task OnAuthorizationCodeReceived(AuthorizationCodeReceivedNotification context)
