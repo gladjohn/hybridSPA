@@ -16,6 +16,24 @@ The application is implemented as an ASP.NET MVC project, while the web sign-on 
 
 The sample also shows how to use MSAL.js V2 (Microsoft Authentication Library for JavaScript) to obtain an access token for Microsoft Graph. Specifically, the sample shows how to retrieve the last email messages received by the signed in user, and how to send a mail message as the user using Microsoft Graph.
 
+## How To Run This Sample
+
+To run this sample, you'll need:
+
+- [Visual Studio 2019](https://aka.ms/vsdownload)
+- An Internet connection
+- An Azure AD account
+
+You can get an Office365 office subscription, which will give you both an Azure AD account and a mailbox, at [https://products.office.com/en-us/try](https://products.office.com/en-us/try).
+
+### Step 1:  Clone or download this repository
+
+From your shell or command line:
+
+```Shell
+git clone https://github.com/Azure-Samples/ms-identity-aspnet-webapp-openidconnect.git
+```
+
 ## Setup
 
 1. Clone the source code from the git repo.
