@@ -42,9 +42,9 @@ git clone https://github.com/gladjohn/hybridSPA.git
 3. In the root `web.config` on this sample, add the client id for this application as `ClientId`.
 4. Add your application authority (e.g. `https://login.microsoftonline.com/<tenant GUID>`) to the `web.config` file as `Authority`.
 5. In the Azure Portal, under the **Authentication** tab for your application, add the following **Web** redirect URIs:
-    1. `http://localhost:44320`
+    1. `https://localhost:44320`
 6. Also add the following **Single-page application** redirect URIs:
-    1. `http://localhost:44320/auth/client-redirect`
+    1. `https://localhost:44320/auth/client-redirect`
 7. Under **Implicit grant and hybrid flows**, check the boxes to enable **Access tokens** and **ID tokens**.
 8. Under the **Certificats & secrets** tab, create a new client secret. Add this client secret to the `web.config` file as `ClientSecret`.
 9. In the manifest editor, add the following optional ID token claims:
