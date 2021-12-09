@@ -247,7 +247,7 @@ function getTokenPopup(spaCode) {
 }
 ```
 
-Once the Access Token is retreived using the new MSAL.js `acquireTokenByCode` api, the code is then used to read the user's profile 
+Once the Access Token is retrieved using the new MSAL.js `acquireTokenByCode` api, the code is then used to read the user's profile 
 
 ```js
 function callMSGraph(endpoint, token, callback) {
