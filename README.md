@@ -28,6 +28,7 @@ It shows how to use two new APIs, `WithSpaAuthorizationCode` on `AcquireTokenByA
 10. Under the **API permissions** tabs, add the `User.Read` scope from Microsoft Graph.
 11. Build the application and click Start.
 
+
 ## Sample web.config 
 ```config
   <appSettings>
@@ -43,3 +44,11 @@ It shows how to use two new APIs, `WithSpaAuthorizationCode` on `AcquireTokenByA
     <add key="Authority" value="https://login.microsoftonline.com/<Tenant GUID>" />
   </appSettings>
 ```  
+
+## Overview
+
+The application is implemented as an ASP.NET MVC project, while the web sign-on functionality is implemented via ASP.NET OpenId Connect OWIN middleware.
+
+The sample also shows how to use MSAL.js V2 (Microsoft Authentication Library for JavaScript) to obtain an access token for Microsoft Graph. Specifically, the sample shows how to retrieve the last email messages received by the signed in user, and how to send a mail message as the user using Microsoft Graph.
+
+
