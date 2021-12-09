@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Read Mail";
+    ViewBag.Title = "View Profile";
 }
 
 @if (ViewBag.Relogin != "true")
@@ -55,11 +55,10 @@ else
 
     var authCode = "@ViewBag.SpaAuthCode";
     var account = "@ViewBag.Account";
-    var scopes = "@ViewBag.Scopes";
 
     const msalInstance = new msal.PublicClientApplication({
         auth: {
-            clientId: "49fd6351-6e12-49c8-a0fa-bc6a8951dabf",
+            clientId: "639982ad-d26c-40a5-852a-80817e3fdae6",
             redirectUri: "https://localhost:44320/auth/client-redirect",
             authority: "https://login.microsoftonline.com/f645ad92-e38d-4d1a-b510-d1b09a74a8ca"
         }
@@ -178,20 +177,13 @@ else
 
         alert(spaCode);
     const code = spaCode;
-    const scopes = ["mail.read"];
-    const tokenQueryParameters = {
-        dc: "ESTS-PUB-WUS2-AZ1-FD000-TEST1",
-    hybridspa: "true"
-    }
+    const scopes = ["user.read"];
 
-    const timeLabel = "Time for acquireTokenByCode";
-    console.time(timeLabel);
     console.log('MSAL: acquireTokenByCode hybrid parameters present');
 
     var authResult = msalInstance.acquireTokenByCode({
         code,
-        scopes,
-        tokenQueryParameters
+        scopes
     })
     console.log(authResult);
 

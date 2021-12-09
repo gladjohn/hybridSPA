@@ -85,20 +85,13 @@ namespace HybridSPA
         {
             try
             {
-                // on a request controller 
-                Dictionary<string, string> extraQueryParameters = new Dictionary<string, string>();
-                extraQueryParameters.Add("dc", "ESTS-PUB-WUS2-AZ1-FD000-TEST1");
-                extraQueryParameters.Add("hybridspa", "true");
-
                 // Upon successful sign in, get the access token & cache it using MSAL
                 IConfidentialClientApplication clientApp = MsalAppBuilder.BuildConfidentialClientApplication();
                 AuthenticationResult result = await clientApp.AcquireTokenByAuthorizationCode(new[] { "user.read" }, context.Code)
                     .WithSpaAuthorizationCode(true)
-                    .WithExtraQueryParameters(extraQueryParameters)
                     .ExecuteAsync();
 
                 HttpContext.Current.Session.Add("Spa_Auth_Code", result.SpaAuthCode);
-
             }
             catch
             {

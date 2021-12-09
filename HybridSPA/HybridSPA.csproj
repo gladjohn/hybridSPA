@@ -423,6 +423,7 @@
     <Content Include="Views\Home\ReadMail.cshtml" />
     <Content Include="Views\Home\MailSent.cshtml" />
     <Content Include="Views\Home\SendMail.cshtml" />
+    <Content Include="Views\Home\ViewProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
