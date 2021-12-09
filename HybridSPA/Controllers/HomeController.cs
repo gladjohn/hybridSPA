@@ -48,44 +48,44 @@ namespace HybridSPA.Controllers
             return View();
         }
 
-        public async Task<ActionResult> ReadMail()
-        {
-            IConfidentialClientApplication app = MsalAppBuilder.BuildConfidentialClientApplication();
-            AuthenticationResult result = null;
-            var accountId = ClaimsPrincipal.Current.GetAccountId();
-            var account = await app.GetAccountAsync(accountId);
-            string[] scopes = { "user.read" };
+        //public async Task<ActionResult> ReadMail()
+        //{
+        //    IConfidentialClientApplication app = MsalAppBuilder.BuildConfidentialClientApplication();
+        //    AuthenticationResult result = null;
+        //    var accountId = ClaimsPrincipal.Current.GetAccountId();
+        //    var account = await app.GetAccountAsync(accountId);
+        //    string[] scopes = { "user.read" };
 
-            try
-            {
-                // try to get token silently
-                result = await app.AcquireTokenSilent(scopes, account).ExecuteAsync().ConfigureAwait(false);
-            }
-            catch (MsalUiRequiredException)
-            {
-                ViewBag.Relogin = "true";
-                return View();
-            }
-            catch (Exception eee)
-            {
-                ViewBag.Error = "An error has occurred. Details: " + eee.Message;
-                return View();
-            }
+        //    try
+        //    {
+        //        // try to get token silently
+        //        result = await app.AcquireTokenSilent(scopes, account).ExecuteAsync().ConfigureAwait(false);
+        //    }
+        //    catch (MsalUiRequiredException)
+        //    {
+        //        ViewBag.Relogin = "true";
+        //        return View();
+        //    }
+        //    catch (Exception eee)
+        //    {
+        //        ViewBag.Error = "An error has occurred. Details: " + eee.Message;
+        //        return View();
+        //    }
 
-            if (result != null)
-            {
+        //    if (result != null)
+        //    {
 
-                // Use the token to read email
-                HttpClient hc = new HttpClient();
-                hc.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", result.AccessToken);
-                HttpResponseMessage hrm = await hc.GetAsync("https://graph.microsoft.com/v1.0/me/messages");
+        //        // Use the token to read email
+        //        HttpClient hc = new HttpClient();
+        //        hc.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", result.AccessToken);
+        //        HttpResponseMessage hrm = await hc.GetAsync("https://graph.microsoft.com/v1.0/me/messages");
 
-                string rez = await hrm.Content.ReadAsStringAsync();
-                ViewBag.Message = rez;
-            }
+        //        string rez = await hrm.Content.ReadAsStringAsync();
+        //        ViewBag.Message = rez;
+        //    }
 
-            return View();
-        }
+        //    return View();
+        //}
 
         public async Task<ActionResult> ViewProfile()
         {
