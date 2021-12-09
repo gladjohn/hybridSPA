@@ -81,7 +81,7 @@ git clone https://github.com/gladjohn/hybridSPA.git
 
 > Note : We will not be using the client secret for MSAL.js.
 
-## Sample web.config 
+## Sample hybridspa.js
 ```js
 const msalInstance = new msal.PublicClientApplication({
     auth: {
@@ -92,4 +92,35 @@ const msalInstance = new msal.PublicClientApplication({
 })
 
 ```  
+
+### Step 3:  Run the sample
+
+Clean the solution, rebuild the solution, and run it.
+
+Once you run the `Hybrid SPA` web application, you are presented with the standard ASP.NET home page.
+Click on the **Sign-in with Microsoft** link on top-right to trigger the log-in flow.
+
+On the sign-in page, enter the name and password of a work/school account. 
+
+As you sign in, the app will change the sign-in button into a greeting to the current user - and two new menu commands will appear: `Read Mail` and `Send Mail`.
+
+![Post sign-in](./ReadmeFiles/Postsign-in.JPG)
+
+Click on **Read Mail**: the app will show a dump of the last few messages from the current user's inbox, as they are received from the Microsoft Graph.
+
+Click on **Send Mail**. As it is the first time you do so, you will receive a message informing you that for the app to receive the permissions to send mail as the user, the user needs to grant additional consent. The message offers a link to initiate the process.
+
+![Incremental Consent Link](./ReadmeFiles/IncrementalConsentLink.jpg)
+
+Click it, and you will be transported back to the consent experience, this time it lists just one permission, which is **Send mail as you**.
+
+![Incremental Consent prompt](./ReadmeFiles/Incrementalconsent.JPG)
+
+Once you have consented to this permission, you will be transported back to the application: but this time, you will be presented with a simple experience for authoring an email. Use it to compose and send an email to a mailbox you have access to. Send the message and verify you receive it correctly.
+
+Hit the **sign-out** link on the top right corner.
+
+Sign in again with the same user, and follow the exact same steps described so far. You will notice that the send mail experience appears right away and no longer forces you to grant extra consent, as your decision has been recorded in your previous session.
+
+> Did the sample not work for you as expected? Did you encounter issues trying this sample? Then please reach out to us using the [GitHub Issues](../issues) page.
 
