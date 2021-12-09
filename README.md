@@ -53,13 +53,10 @@ git clone https://github.com/gladjohn/hybridSPA.git
 
 #### Configure the service project
 
-> Note: if you used the setup scripts, the changes below will have been applied for you
-
 1. Open the solution in Visual Studio.
 1. Open the `web.config` file.
 1. Find the app key `ClientId` and replace the existing value with the application ID (clientId) of the application copied from the Azure portal.
 1. Find the app key `ClientSecret` and replace the existing value with the key you saved during the creation of the app, in the Azure portal.
-
 
 ## Sample web.config 
 ```config
@@ -75,5 +72,24 @@ git clone https://github.com/gladjohn/hybridSPA.git
     <add key="Tenant" value="common" />
     <add key="Authority" value="https://login.microsoftonline.com/<Tenant GUID>" />
   </appSettings>
+```  
+#### Configure the SPA 
+
+1. Open the solution in Visual Studio.
+1. Open the `hybridspa.js` file.
+1. Find the app key `clientId` and replace the existing value with the application ID (clientId) of the application copied from the Azure portal.
+
+> Note : We will not be using the client secret for MSAL.js.
+
+## Sample web.config 
+```js
+const msalInstance = new msal.PublicClientApplication({
+    auth: {
+        clientId: "client_id",
+        redirectUri: "https://localhost:44320/auth/client-redirect",
+        authority: "https://login.microsoftonline.com/f645ad92-e38d-4d1a-b510-d1b09a74a8ca"
+    }
+})
+
 ```  
 
