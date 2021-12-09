@@ -113,6 +113,8 @@ As you sign in, the app will change the sign-in button into a greeting to the cu
 
 Click on **View Profile**: the app will show the profile of the current user, as they are received from the Microsoft Graph.
 
+![User Profile](./HybridSPA/Content/Profile.JPG)
+
 > Did the sample not work for you as expected? Did you encounter issues trying this sample? Then please reach out to us using the [GitHub Issues](../issues) page.
 
 
