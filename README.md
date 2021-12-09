@@ -124,7 +124,7 @@ Here there's a quick guide to the most interesting authentication-related bits o
 
 ### Sign in
 
-As it is standard practice for ASP.NET MVC apps, the sign-in functionality is implemented with the OpenID Connect OWIN middleware. Here there's a relevant snippet from the middleware initialization:
+As it is a standard practice for ASP.NET MVC apps, the sign-in functionality is implemented with the OpenID Connect OWIN middleware. Here os the relevant snippet from the middleware initialization:
 
 ```CSharp
 app.UseOpenIdConnectAuthentication(
