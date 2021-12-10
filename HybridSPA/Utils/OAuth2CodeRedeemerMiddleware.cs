@@ -27,6 +27,7 @@ using Microsoft.Owin;
 using Owin;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -242,6 +243,8 @@ namespace HybridSPA.Utils
                 .WithAuthority(cca.Authority)
                 .ExecuteAsync(CancellationToken.None)
                 .ConfigureAwait(false);
+            
+            Trace.WriteLine("Authorization Request Url Generated: " + authzMessageUri.ToString());
 
             return authzMessageUri.ToString();
         }
