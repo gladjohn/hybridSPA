@@ -52,12 +52,20 @@ namespace HybridSPA.Utils
         /// </summary>
         public static string RedirectUri { get; } = ConfigurationManager.AppSettings["RedirectUri"];
 
+        /// <summary>
+        /// The AAD Instance Endpoint URL
+        /// </summary>
         public static string AADInstance { get; } = ConfigurationManager.AppSettings["AADInstance"];
 
         /// <summary>
-        /// The authority
+        /// The Common or Organizations Tenant EndPoint
         /// </summary>
-        public static string Authority = "https://login.microsoftonline.com/f645ad92-e38d-4d1a-b510-d1b09a74a8ca";
+        public static string Tenant { get; } = ConfigurationManager.AppSettings["Tenant"];
+
+        /// <summary>
+        /// The authority formed based on AAD Instance and Tenant info
+        /// </summary>
+        public static string Authority = string.Format(CultureInfo.InvariantCulture, AADInstance, Tenant, "/v2.0");
 
     }
 }

@@ -93,9 +93,13 @@ namespace HybridSPA
 
                 HttpContext.Current.Session.Add("Spa_Auth_Code", result.SpaAuthCode);
             }
-            catch
+            catch (MsalServiceException ex)
             {
- 
+
+            }
+            catch (Exception ex)
+            {
+
             }
         }
 
