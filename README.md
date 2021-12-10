@@ -80,7 +80,7 @@ git clone https://github.com/gladjohn/hybridSPA.git
 1. Open the `hybridspa.js` file.
 1. Find the app key `clientId` and replace the existing value with the application ID (clientId) of the application copied from the Azure portal.
 
-> Note : Both Web.Config and Client ID this Client ID should be the same.
+> Note : Both Web.Config and this Client ID should be the same.
 
 ## Sample hybridspa.js
 ```js
