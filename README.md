@@ -68,12 +68,11 @@ git clone https://github.com/gladjohn/hybridSPA.git
     <add key="webpages:Enabled" value="false" />
     <add key="ClientValidationEnabled" value="true" />
     <add key="UnobtrusiveJavaScriptEnabled" value="true" />
-    <add key="ClientId" value="App_ID/Client_ID" />
-    <add key="ClientSecret" value="App_Secret" />
+    <add key="ClientId" value="<Replace with your Application/Client ID>" />
+    <add key="ClientSecret" value="<Replace with your App Secret>" />
     <add key="AADInstance" value="https://login.microsoftonline.com/{0}{1}" />
     <add key="redirectUri" value="https://localhost:44320" />
-    <add key="Tenant" value="common" />
-    <add key="Authority" value="https://login.microsoftonline.com/<Tenant GUID>" />
+    <add key="Tenant" value="organizations" /> <!-- Set value to "common" if you are using a Multi Tenant App -->
   </appSettings>
 ```  
 #### Configure the SPA 
