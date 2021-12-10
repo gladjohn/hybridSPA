@@ -313,6 +313,7 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 For more information, visit the following links:
 
 - [Add sign-in with Microsoft to an ASP.NET web app (V2 endpoint)](https://docs.microsoft.com/en-us/azure/active-directory/develop/guidedsetups/active-directory-aspnetwebapp) explains how to re-create the sign-in part of this sample from scratch.
+- [MSAL Browser sample](https://github.com/AzureAD/microsoft-authentication-library-for-js/tree/dev/samples/msal-browser-samples/HybridSample) that demonstrates how to use MSAL.js v2 and MSAL Node together in a "hybrid" application that performs both server-side and client-side authenication
 - To learn more about the code, visit [Conceptual documentation for MSAL.NET](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki#conceptual-documentation) and in particular:
 
   - [Acquiring tokens with authorization codes on web apps](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/Acquiring-tokens-with-authorization-codes-on-web-apps)
@@ -323,8 +324,6 @@ For more information, visit the following links:
 
   - [Azure Active Directory v2.0 and OAuth 2.0 On-Behalf-Of flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-protocols-oauth-on-behalf-of)
   - [Incremental and dynamic consent](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-compare#incremental-and-dynamic-consent)
-  
-  - [MSAL Browser sample](https://github.com/AzureAD/microsoft-authentication-library-for-js/tree/dev/samples/msal-browser-samples/HybridSample) that demonstrates how to use MSAL.js v2 and MSAL Node together in a "hybrid" application that performs both server-side and client-side authenication
 
 - Articles about the Microsoft Graph
   - [Overview of Microsoft Graph](https://developer.microsoft.com/en-us/graph/docs/concepts/overview)
