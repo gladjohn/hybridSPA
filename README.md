@@ -86,12 +86,11 @@ git clone https://github.com/gladjohn/hybridSPA.git
 ```js
 const msalInstance = new msal.PublicClientApplication({
     auth: {
-        clientId: "client_id",
-        redirectUri: "https://localhost:44320/auth/client-redirect",
-        authority: "https://login.microsoftonline.com/f645ad92-e38d-4d1a-b510-d1b09a74a8ca"
+        clientId: "<same client id from the web.config>",
+        redirectUri: "https://localhost:44320",
+        authority: "https://login.microsoftonline.com/organizations/v2.0"
     }
 })
-
 ```  
 
 ### Step 3:  Run the sample
