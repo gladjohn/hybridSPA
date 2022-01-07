@@ -51,7 +51,6 @@ namespace HybridSPA.Utils
                       .WithClientSecret(AuthenticationConfig.ClientSecret)
                       .WithRedirectUri(AuthenticationConfig.RedirectUri)
                       .WithAuthority(new Uri(AuthenticationConfig.Authority))
-                      .WithExperimentalFeatures()
                       .Build();
 
                 //For instance the distributed in memory cache
