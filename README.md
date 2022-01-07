@@ -48,7 +48,8 @@ git clone https://github.com/gladjohn/hybridSPA.git
 8. Under the **Certificats & secrets** tab, create a new client secret. Add this client secret to the `web.config` file as `ClientSecret`.
 9. Under **Token Configuration**, add the following optional ID token claims:
     1. `sid`
-10. Under the **API permissions** tabs, add the `User.Read` scope from Microsoft Graph (if not already present).
+10. Under the **API permissions** tabs, add the `User.Read` scope from Microsoft Graph (if not already present), and 'Mail.Read'.
+11. Grant Admin Consent for the permissions you just added.
 
 #### Configure the service project
 
