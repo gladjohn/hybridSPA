@@ -79,7 +79,6 @@ git clone https://github.com/gladjohn/hybridSPA.git
 1. Open the solution in Visual Studio.
 1. Open the `hybridspa.js` file.
 1. Find the app key `clientId` and replace the existing value with the application ID (clientId) of the application copied from the Azure portal.
-1. Find the app key `authority` and replace the existing value with the Tenant ID (GUID) of your tenant.
 
 > Note : Both Web.Config and this Client ID should be the same.
 
@@ -89,7 +88,7 @@ const msalInstance = new msal.PublicClientApplication({
     auth: {
         clientId: "<same client id from the web.config>",
         redirectUri: "https://localhost:44320/auth/client-redirect",
-        authority: "https://login.microsoftonline.com/<Tenant ID>"
+        authority: "https://login.microsoftonline.com/organizations/"
     }
 })
 ```  
