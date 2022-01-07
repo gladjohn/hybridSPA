@@ -2,7 +2,7 @@
     auth: {
         clientId: "639982ad-d26c-40a5-852a-80817e3fdae6",
         redirectUri: "https://localhost:44320/auth/client-redirect",
-        authority: "https://login.microsoftonline.com/f645ad92-e38d-4d1a-b510-d1b09a74a8ca"
+        authority: "https://login.microsoftonline.com/organizations/"
     }
 })
 
