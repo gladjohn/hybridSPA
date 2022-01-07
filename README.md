@@ -1,7 +1,5 @@
 # hybridSPA
 
-## Problem Description
-
 Some applications like SharePoint and OWA are built as "hybrid" web applications, which are built with server-side and client-side components (e.g. an ASP.net  web application hosting a React single-page application). In these scenarios, the application will likely need authentication both client-side (e.g. a public client using MSAL.js) and server-side (e.g. a confidential client using MSAL.net ), and each application context will need to acquire its own tokens. This requires that the application complete two round-trips to the eSTS /authorize endpoint, one to get tokens for the confidential client, and a second to get tokens for the public client. Historically, the second leg of this flow is done silently via the implicit flow (e.g. ADAL.js or MSAL.js v1). However, when third-party cookies are blocked in the user's browser due to the browser's privacy features (e.g. Safari ITP), MSAL.js is unable to complete the second round-trip to the /authorize endpoint silently, resulting in the application needing to prompt the user to interactively navigate to the /authorize endpoint (via popup or full-page redirect) to complete authentication for the public client. And while MSAL.js v2 does not require third-party cookies for silent token renewal, it still relies on third-party cookies to silently authenticate the user when the application first loads.
 
 ## Hybrid SPA sample application
@@ -37,21 +35,20 @@ git clone https://github.com/gladjohn/hybridSPA.git
 ```
 ### Step 2:  Register the sample application with your Azure Active Directory tenant
 
-1. Clone the source code from the git repo.
-2. In the Azure Portal, create a new app registration.
-3. Leave the Supported Account Types to it's default value (i.e. Accounts in this organizational directory only)
-4. In the Azure Portal, under the **Authentication** tab for your application, add the following **Web** redirect URIs:
+1. In the Azure Portal, create a new app registration.
+2. Leave the Supported Account Types to it's default value (i.e. Accounts in this organizational directory only)
+3. In the Azure Portal, under the **Authentication** tab for your application, add the following **Web** redirect URIs:
     1. `https://localhost:44320`
-5. Also add the following **Single-page application** redirect URIs:
+4. Also add the following **Single-page application** redirect URIs:
     1. `https://localhost:44320/auth/client-redirect`
-7. Under **Implicit grant and hybrid flows**, check the boxes to enable **Access tokens** and **ID tokens**.
-8. Under the **Certificats & secrets** tab, create a new client secret. Add this client secret to the `web.config` file as `ClientSecret`.
-9. In the manifest editor, add the following optional ID token claims:
+5. Under **Implicit grant and hybrid flows**, check the boxes to enable **Access tokens** and **ID tokens**.
+6. Under the **Certificats & secrets** tab, create a new client secret. Add this client secret to the `web.config` file as `ClientSecret`.
+7. Under **Token Configuration**, add the following optional `ID token` claims:
     1. `sid`
-    1. `login_hint`
-10. Under the **API permissions** tabs, add the `User.Read` scope from Microsoft Graph.
+8. Under the **API permissions** tabs, add the `User.Read` and `Mail.Read` delegated scopes for Microsoft Graph.
+9. Grant Admin Consent for the permissions you just added.
 
-#### Configure the service project
+#### Configure the sample project
 
 1. Open the solution in Visual Studio.
 1. Open the `web.config` file.
