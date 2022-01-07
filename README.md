@@ -46,10 +46,9 @@ git clone https://github.com/gladjohn/hybridSPA.git
     1. `https://localhost:44320/auth/client-redirect`
 7. Under **Implicit grant and hybrid flows**, check the boxes to enable **Access tokens** and **ID tokens**.
 8. Under the **Certificats & secrets** tab, create a new client secret. Add this client secret to the `web.config` file as `ClientSecret`.
-9. In the manifest editor, add the following optional ID token claims:
+9. Under **Token Configuration**, add the following optional ID token claims:
     1. `sid`
-    1. `login_hint`
-10. Under the **API permissions** tabs, add the `User.Read` scope from Microsoft Graph.
+10. Under the **API permissions** tabs, add the `User.Read` scope from Microsoft Graph (if not already present).
 
 #### Configure the service project
 
