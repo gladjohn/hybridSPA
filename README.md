@@ -37,19 +37,18 @@ git clone https://github.com/gladjohn/hybridSPA.git
 ```
 ### Step 2:  Register the sample application with your Azure Active Directory tenant
 
-1. Clone the source code from the git repo.
-2. In the Azure Portal, create a new app registration.
-3. Leave the Supported Account Types to it's default value (i.e. Accounts in this organizational directory only)
-4. In the Azure Portal, under the **Authentication** tab for your application, add the following **Web** redirect URIs:
+1. In the Azure Portal, create a new app registration.
+2. Leave the Supported Account Types to it's default value (i.e. Accounts in this organizational directory only)
+3. In the Azure Portal, under the **Authentication** tab for your application, add the following **Web** redirect URIs:
     1. `https://localhost:44320`
-5. Also add the following **Single-page application** redirect URIs:
+4. Also add the following **Single-page application** redirect URIs:
     1. `https://localhost:44320/auth/client-redirect`
-7. Under **Implicit grant and hybrid flows**, check the boxes to enable **Access tokens** and **ID tokens**.
-8. Under the **Certificats & secrets** tab, create a new client secret. Add this client secret to the `web.config` file as `ClientSecret`.
-9. Under **Token Configuration**, add the following optional ID token claims:
+5. Under **Implicit grant and hybrid flows**, check the boxes to enable **Access tokens** and **ID tokens**.
+6. Under the **Certificats & secrets** tab, create a new client secret. Add this client secret to the `web.config` file as `ClientSecret`.
+7. Under **Token Configuration**, add the following optional ID token claims:
     1. `sid`
-10. Under the **API permissions** tabs, add the `User.Read` scope from Microsoft Graph (if not already present), and 'Mail.Read'.
-11. Grant Admin Consent for the permissions you just added.
+8. Under the **API permissions** tabs, add the `User.Read` scope from Microsoft Graph (if not already present), and 'Mail.Read'.
+9. Grant Admin Consent for the permissions you just added.
 
 #### Configure the service project
 
