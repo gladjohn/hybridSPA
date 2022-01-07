@@ -39,11 +39,10 @@ git clone https://github.com/gladjohn/hybridSPA.git
 
 1. Clone the source code from the git repo.
 2. In the Azure Portal, create a new app registration.
-3. In the root `web.config` on this sample, add the client id for this application as `ClientId`.
-4. Add your application authority (e.g. `https://login.microsoftonline.com/<tenant GUID>`) to the `web.config` file as `Authority`.
-5. In the Azure Portal, under the **Authentication** tab for your application, add the following **Web** redirect URIs:
+3. Leave the Supported Account Types to it's default value (i.e. Accounts in this organizational directory only)
+4. In the Azure Portal, under the **Authentication** tab for your application, add the following **Web** redirect URIs:
     1. `https://localhost:44320`
-6. Also add the following **Single-page application** redirect URIs:
+5. Also add the following **Single-page application** redirect URIs:
     1. `https://localhost:44320/auth/client-redirect`
 7. Under **Implicit grant and hybrid flows**, check the boxes to enable **Access tokens** and **ID tokens**.
 8. Under the **Certificats & secrets** tab, create a new client secret. Add this client secret to the `web.config` file as `ClientSecret`.
@@ -51,7 +50,6 @@ git clone https://github.com/gladjohn/hybridSPA.git
     1. `sid`
     1. `login_hint`
 10. Under the **API permissions** tabs, add the `User.Read` scope from Microsoft Graph.
-11. Build the application and click Start.
 
 #### Configure the service project
 
@@ -59,6 +57,7 @@ git clone https://github.com/gladjohn/hybridSPA.git
 1. Open the `web.config` file.
 1. Find the app key `ClientId` and replace the existing value with the application ID (clientId) of the application copied from the Azure portal.
 1. Find the app key `ClientSecret` and replace the existing value with the key you saved during the creation of the app, in the Azure portal.
+1. Build the application and click Start.
 
 ## Sample web.config 
 ```config
@@ -87,8 +86,8 @@ git clone https://github.com/gladjohn/hybridSPA.git
 const msalInstance = new msal.PublicClientApplication({
     auth: {
         clientId: "<same client id from the web.config>",
-        redirectUri: "https://localhost:44320",
-        authority: "https://login.microsoftonline.com/organizations/v2.0"
+        redirectUri: "https://localhost:44320/auth/client-redirect",
+        authority: "https://login.microsoftonline.com/organizations/"
     }
 })
 ```  
