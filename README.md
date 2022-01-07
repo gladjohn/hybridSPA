@@ -50,7 +50,6 @@ git clone https://github.com/gladjohn/hybridSPA.git
     1. `sid`
     1. `login_hint`
 10. Under the **API permissions** tabs, add the `User.Read` scope from Microsoft Graph.
-11. Build the application and click Start.
 
 #### Configure the service project
 
@@ -58,6 +57,7 @@ git clone https://github.com/gladjohn/hybridSPA.git
 1. Open the `web.config` file.
 1. Find the app key `ClientId` and replace the existing value with the application ID (clientId) of the application copied from the Azure portal.
 1. Find the app key `ClientSecret` and replace the existing value with the key you saved during the creation of the app, in the Azure portal.
+1. Build the application and click Start.
 
 ## Sample web.config 
 ```config
