@@ -48,7 +48,7 @@ git clone https://github.com/gladjohn/hybridSPA.git
 8. Under the **API permissions** tabs, add the `User.Read` and `Mail.Read` scopes for Microsoft Graph.
 9. Grant Admin Consent for the permissions you just added.
 
-#### Configure the service project
+#### Configure the sample project
 
 1. Open the solution in Visual Studio.
 1. Open the `web.config` file.
