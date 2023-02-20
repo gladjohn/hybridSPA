@@ -1,8 +1,8 @@
 ﻿const msalInstance = new msal.PublicClientApplication({
     auth: {
-        clientId: "<same client id from the web.config>",
+        clientId: "35dc5034-9b65-4a5d-ad81-73cca468c1e0",
         redirectUri: "https://localhost:44320/auth/client-redirect",
-        authority: "https://login.microsoftonline.com/organizations/"
+        authority: "https://login.microsoftonline.com/common"
     }
 })
 

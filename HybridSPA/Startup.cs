@@ -50,7 +50,7 @@ namespace HybridSPA
                     ClientId = AuthenticationConfig.ClientId,
                     RedirectUri = AuthenticationConfig.RedirectUri,
                     PostLogoutRedirectUri = AuthenticationConfig.RedirectUri,
-                    Scope = AuthenticationConfig.BasicSignInScopes + " Mail.Read", // a basic set of permissions for user sign in & profile access "openid profile offline_access"
+                    Scope = AuthenticationConfig.BasicSignInScopes + " Mail.Read User.Read", // a basic set of permissions for user sign in & profile access "openid profile offline_access"
                     TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = false,
